@@ -116,3 +116,18 @@ fn parse_datetime() {
 	let time2 = text.as_datetime();
 	assert_eq!(time2, Some(time));
 }
+
+#[test]
+// This test should actually pass, after all it tests the example datetime
+// string from the PDF spec. However it doesn't. The seconds are missing and
+// Object::as_datetime() doesn't deal with the fact that all fields after the
+// four-digit year are optional.
+#[ignore]
+fn parse_datetime_from_pdf_spec() {
+    // this is the example from the PDF reference, version 1.7, chapter 3.8.3
+    let text = Object::string_literal("D:199812231952-08'00'");
+    println!("{:?}", text);
+    let time = text.as_datetime();
+    println!("{:?}", time);
+    assert!(time.is_some());
+}
